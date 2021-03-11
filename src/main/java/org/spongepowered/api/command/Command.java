@@ -109,7 +109,7 @@ public interface Command {
      * @return A list of suggestions
      * @throws CommandException Thrown if there was a parsing error
      */
-    List<String> getSuggestions(CommandCause cause, ArgumentReader.Mutable arguments) throws CommandException;
+    List<String> suggestions(CommandCause cause, ArgumentReader.Mutable arguments) throws CommandException;
 
     /**
      * Test whether this command can probably be executed given this
@@ -133,24 +133,24 @@ public interface Command {
      * @param cause The {@link CommandCause} of the help request
      * @return A description
      */
-    Optional<Component> getShortDescription(CommandCause cause);
+    Optional<Component> shortDescription(CommandCause cause);
 
     /**
      * Gets a longer formatted help message about this command.
      *
      * <p>The help system may display this description when displaying details
      * about this specific command. It should not contain the description
-     * provided by {@link #getShortDescription(CommandCause)}.</p>
+     * provided by {@link #shortDescription(CommandCause)}.</p>
      *
      * @param cause The {@link Cause} of the help request
      * @return A description
      */
-    Optional<Component> getExtendedDescription(CommandCause cause);
+    Optional<Component> extendedDescription(CommandCause cause);
 
     /**
      * Gets a longer formatted help message about this command. This will
-     * typically comprise of {@link #getShortDescription(CommandCause)}
-     * and {@link #getExtendedDescription(CommandCause)} together.
+     * typically comprise of {@link #shortDescription(CommandCause)}
+     * and {@link #extendedDescription(CommandCause)} together.
      *
      * <p>The help system may display this message when a source requests
      * detailed information about a command.</p>
@@ -158,9 +158,9 @@ public interface Command {
      * @param cause The {@link Cause} of the help request
      * @return A help text
      */
-    default Optional<Component> getHelp(@NonNull final CommandCause cause) {
-        final Optional<Component> shortDesc = this.getShortDescription(cause);
-        final Optional<Component> extended = this.getExtendedDescription(cause);
+    default Optional<Component> help(@NonNull final CommandCause cause) {
+        final Optional<Component> shortDesc = this.shortDescription(cause);
+        final Optional<Component> extended = this.extendedDescription(cause);
         if (extended.isPresent()) {
             if (shortDesc.isPresent()) {
                 return Optional.of(Component.text().append(shortDesc.get(), Component.newline(), Component.newline(), extended.get()).build());
@@ -182,7 +182,7 @@ public interface Command {
      * @param cause The {@link Cause} of the help request
      * @return A usage string
      */
-    Component getUsage(CommandCause cause);
+    Component usage(CommandCause cause);
 
     /**
      * A raw command that also contains a {@link CommandTreeNode} to provide
@@ -265,7 +265,7 @@ public interface Command {
          *
          * @return The predicate.
          */
-        Predicate<CommandCause> getExecutionRequirements();
+        Predicate<CommandCause> executionRequirements();
 
         /**
          * Parses the parameters based on the provided {@link #parameters()}
@@ -281,7 +281,7 @@ public interface Command {
          *
          * @return The {@link CommandExecutor}, if it exists.
          */
-        Optional<CommandExecutor> getExecutor();
+        Optional<CommandExecutor> executor();
 
         /**
          * Processes the command by parsing the arguments, then
@@ -300,8 +300,8 @@ public interface Command {
          */
         @Override
         default CommandResult process(final CommandCause cause, final ArgumentReader.Mutable arguments) throws CommandException {
-            if (this.getExecutor().isPresent()) {
-                return this.getExecutor().get().execute(this.parseArguments(cause, arguments));
+            if (this.executor().isPresent()) {
+                return this.executor().get().execute(this.parseArguments(cause, arguments));
             }
             throw new CommandException(Component.text("This command does not have an executor!"));
         }

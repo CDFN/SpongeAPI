@@ -41,7 +41,7 @@ public interface ExecuteCommandEvent extends Event {
     /**
      * Gets the {@link CommandCause} that is involved in this event.
      *
-     * <p>{@link CommandCause#getCause()} returns the same {@link Cause} as
+     * <p>{@link CommandCause#cause()} returns the same {@link Cause} as
      * {@link #getCause()}.</p>
      *
      * @return The {@link CommandCause}

@@ -85,14 +85,14 @@ public interface CommandResult {
      *
      * @return The result.
      */
-    int getResult();
+    int result();
 
     /**
      * If present, returns the error message associated with this result.
      *
      * @return The error {@link Component}
      */
-    Optional<Component> getErrorMessage();
+    Optional<Component> errorMessage();
 
     /**
      * Builds {@link CommandResult}s.

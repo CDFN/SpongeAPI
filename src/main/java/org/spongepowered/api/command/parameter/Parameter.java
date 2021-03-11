@@ -885,7 +885,7 @@ public interface Parameter {
          *
          * @return The {@link TypeToken}
          */
-        Type getType();
+        Type type();
 
         /**
          * Return whether the value is an instance of this key's value type.
@@ -942,7 +942,7 @@ public interface Parameter {
      *
      * <p>This type of {@link Parameter} will attempt to parse an input
      * using the {@link ValueParser}s in the order that they are returned in
-     * {@link #getParsers()}. If a {@link ValueParser} fails to parse an
+     * {@link #parsers()}. If a {@link ValueParser} fails to parse an
      * argument, the next in the list will be tried, if the final
      * {@link ValueParser} cannot parse the argument, this element will
      * throw a {@link ArgumentParseException}.</p>
@@ -956,7 +956,7 @@ public interface Parameter {
          *
          * @return The key.
          */
-        Key<T> getKey();
+        Key<T> key();
 
         /**
          * The {@link ValueParser}s to use when parsing an argument. They will be
@@ -968,14 +968,14 @@ public interface Parameter {
          *
          * @return The parameters.
          */
-        Collection<ValueParser<? extends T>> getParsers();
+        Collection<ValueParser<? extends T>> parsers();
 
         /**
          * Gets the {@link ValueCompleter} associated with this {@link Value}.
          *
          * @return The {@link ValueCompleter}.
          */
-        ValueCompleter getCompleter();
+        ValueCompleter completer();
 
         /**
          * Gets the {@link ValueUsage} associated with this {@link Value}, if
@@ -983,7 +983,7 @@ public interface Parameter {
          *
          * @return The {@link ValueUsage}, if set.
          */
-        Optional<ValueUsage> getValueUsage();
+        Optional<ValueUsage> valueUsage();
 
         /**
          * Gets a {@link Predicate} that indicates whether a given {@link Cause}
@@ -991,7 +991,7 @@ public interface Parameter {
          *
          * @return the predicate
          */
-        Predicate<CommandCause> getRequirement();
+        Predicate<CommandCause> requirement();
 
         /**
          * Parses the next element(s) in the {@link CommandContext}
@@ -1007,7 +1007,7 @@ public interface Parameter {
 
         /**
          * Returns potential completions of the current tokenized argument. The
-         * completion will be based on {@link ArgumentReader#getRemaining()}.
+         * completion will be based on {@link ArgumentReader#remaining()}.
          *
          * @param reader The {@link ArgumentReader} containing the strings that need
          *               to be parsed
@@ -1025,7 +1025,7 @@ public interface Parameter {
          * @param cause The {@link CommandCause} that requested the usage
          * @return The usage
          */
-        String getUsage(CommandCause cause);
+        String usage(CommandCause cause);
 
         /**
          * If set, this parameter will repeat until the argument string has
@@ -1229,14 +1229,14 @@ public interface Parameter {
          *
          * @return The command to run.
          */
-        Command.Parameterized getCommand();
+        Command.Parameterized command();
 
         /**
          * The alias for the subcommand.
          *
          * @return The subcommand.
          */
-        Set<String> getAliases();
+        Set<String> aliases();
 
         interface Builder extends org.spongepowered.api.util.Builder<Subcommand, Builder> {
 
@@ -1281,7 +1281,7 @@ public interface Parameter {
          *
          * @return the child parameters
          */
-        List<Parameter> getChildParameters();
+        List<Parameter> childParameters();
     }
 
     /**
