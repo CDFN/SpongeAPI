@@ -23,7 +23,6 @@ val ap by sourceSets.registering {
 
 // Project dependencies
 dependencies {
-
     // Directly tied to what's available from Minecraft
     api("org.apache.logging.log4j:log4j-api:2.8.1")
     api("com.google.guava:guava:21.0") {
@@ -54,9 +53,10 @@ dependencies {
     }
 
     // Dependency injection
-    api("com.google.inject:guice:4.1.0") {
+    api("com.google.inject:guice:5.0.1") {
+        exclude(group ="com.google.code.findbugs", module = "jsr305") // We don't want to use jsr305, use checkerframework
         exclude(group = "javax.inject", module = "javax.inject")
-        exclude(group = "com.google.guava", module = "guava") // We bump the version compared to guice
+        exclude(group = "com.google.guava", module = "guava") // We use an older version than Guice does
     }
 
     // High performance cache + guava - shaded guava
